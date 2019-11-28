@@ -6,5 +6,8 @@
 </head>
 <body>
     <h1>My Recipes!</h1>
+    <ul>
+        <li th:each="recipe : ${recipes}" th:text="${recipe.id} + ' : ' + ${recipe.description}"></li>
+    </ul>
 </body>
 </html>
