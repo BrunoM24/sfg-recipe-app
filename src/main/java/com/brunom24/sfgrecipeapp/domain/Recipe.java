@@ -18,8 +18,8 @@ public class Recipe {
     private String url;
     private String directions;
 
-    //TODO add
-    //private Difficulty difficulty;
+    @Enumerated(value = EnumType.STRING)
+    private Diffilcuty difficulty;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
@@ -92,6 +92,14 @@ public class Recipe {
 
     public void setDirections(String directions) {
         this.directions = directions;
+    }
+
+    public Diffilcuty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Diffilcuty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Set<Ingredient> getIngredients() {
