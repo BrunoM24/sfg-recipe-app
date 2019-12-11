@@ -102,6 +102,9 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         guacRecipe.setCockTime(0);
         guacRecipe.setDifficulty(Difficulty.EASY);
         guacRecipe.setDirections("Guacamole Directions");
+        guacRecipe.setServings(6);
+        guacRecipe.setUrl("www.brunom24.io");
+        guacRecipe.setSource("Spring Framework Guru");
 
         Notes guacNotes = new Notes();
         guacNotes.setRecipeNotes("Guacamole Notes");
