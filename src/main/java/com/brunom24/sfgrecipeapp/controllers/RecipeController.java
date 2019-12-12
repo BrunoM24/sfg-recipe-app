@@ -1,10 +1,13 @@
 package com.brunom24.sfgrecipeapp.controllers;
 
+import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
 import com.brunom24.sfgrecipeapp.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -26,5 +29,22 @@ public class RecipeController {
 
         return "recipe/show";
     }
+
+    @RequestMapping("/new")
+    public String newRecipe(Model model){
+
+        model.addAttribute("recipe", new RecipeCommand());
+
+        return "recipe/recipeForm";
+    }
+
+    @PostMapping("/")
+    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+
+        RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(command);
+
+        return "redirect:/recipe/show/" + savedRecipeCommand.getId();
+    }
+
 
 }
