@@ -1,5 +1,7 @@
 package com.brunom24.sfgrecipeapp.services;
 
+import com.brunom24.sfgrecipeapp.converters.RecipeCommandToRecipe;
+import com.brunom24.sfgrecipeapp.converters.RecipeToRecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
 import com.brunom24.sfgrecipeapp.repositories.RecipeRepository;
 import org.junit.Before;
@@ -22,11 +24,17 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeToRecipeCommand, recipeCommandToRecipe);
     }
 
     @Test
