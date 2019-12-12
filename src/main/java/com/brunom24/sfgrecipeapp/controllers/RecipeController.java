@@ -3,6 +3,7 @@ package com.brunom24.sfgrecipeapp.controllers;
 import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
 import com.brunom24.sfgrecipeapp.services.RecipeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+@Slf4j
 @Controller
 @RequestMapping("/recipe")
 public class RecipeController {
@@ -53,6 +55,16 @@ public class RecipeController {
         model.addAttribute("recipe", command);
 
         return "recipe/recipeForm";
+    }
+
+
+    @RequestMapping("/{id}/delete")
+    public String deleteRecipe(@PathVariable Long id){
+        log.debug("Id to delete: " + id);
+
+        recipeService.deleteByd(id);
+
+        return "redirect:/";
     }
 
 }
