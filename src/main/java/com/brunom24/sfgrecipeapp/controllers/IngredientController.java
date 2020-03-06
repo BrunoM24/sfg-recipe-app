@@ -1,6 +1,8 @@
 package com.brunom24.sfgrecipeapp.controllers;
 
 import com.brunom24.sfgrecipeapp.commands.IngredientCommand;
+import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
+import com.brunom24.sfgrecipeapp.commands.UnitOfMeasureCommand;
 import com.brunom24.sfgrecipeapp.services.IngredientService;
 import com.brunom24.sfgrecipeapp.services.RecipeService;
 import com.brunom24.sfgrecipeapp.services.UnitOfMeasureService;
@@ -40,6 +42,21 @@ public class IngredientController {
         model.addAttribute("ingredient", ingredientService.findIngredientCommandByIdAndRecipeId(ingredientId, recipeId));
 
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping("/recipe/{recipeId}/ingredient/create")
+    public String createForm(@PathVariable Long recipeId, Model model){
+        RecipeCommand recipeCommand = recipeService.findCommandById(recipeId);
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(recipeCommand.getId());
+        ingredientCommand.setUnitOfMeasure(new UnitOfMeasureCommand());
+
+        model.addAttribute("ingredient", ingredientCommand);
+
+        model.addAttribute("uomList", uomService.findAllUomCommands());
+
+        return "recipe/ingredient/ingredientForm";
     }
 
     @GetMapping("/recipe/{recipeId}/ingredient/{ingredientId}/update")
