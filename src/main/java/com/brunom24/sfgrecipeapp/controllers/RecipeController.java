@@ -2,14 +2,14 @@ package com.brunom24.sfgrecipeapp.controllers;
 
 import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
+import com.brunom24.sfgrecipeapp.exceptions.NotFoundException;
 import com.brunom24.sfgrecipeapp.services.RecipeService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @Controller
@@ -65,6 +65,20 @@ public class RecipeController {
         recipeService.deleteByd(id);
 
         return "redirect:/";
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NotFoundException.class)
+    public ModelAndView handleNotFound(Exception exception){
+        log.error("Handling not found Exception");
+        log.error(exception.getMessage());
+
+        ModelAndView modelAndView = new ModelAndView();
+
+        modelAndView.setViewName("404error");
+        modelAndView.addObject("exception", exception);
+
+        return modelAndView;
     }
 
 }
