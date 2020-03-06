@@ -2,6 +2,7 @@ package com.brunom24.sfgrecipeapp.controllers;
 
 import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
+import com.brunom24.sfgrecipeapp.exceptions.NotFoundException;
 import com.brunom24.sfgrecipeapp.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,6 +50,19 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+
+    }
+
+    @Test
+    public void showByIdNotFound() throws Exception {
+        Recipe recipe = new Recipe();
+
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/1/show"))
+                .andExpect(status().isNotFound());
 
     }
 

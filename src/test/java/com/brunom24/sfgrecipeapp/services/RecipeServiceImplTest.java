@@ -3,6 +3,7 @@ package com.brunom24.sfgrecipeapp.services;
 import com.brunom24.sfgrecipeapp.converters.RecipeCommandToRecipe;
 import com.brunom24.sfgrecipeapp.converters.RecipeToRecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
+import com.brunom24.sfgrecipeapp.exceptions.NotFoundException;
 import com.brunom24.sfgrecipeapp.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -66,6 +67,15 @@ public class RecipeServiceImplTest {
         assertNotNull("Null Recipe Returned", recipeReturned);
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository, never()).findAll();
+    }
+
+    @Test(expected = NotFoundException.class)
+    public void getRecipeByIdNotFound() {
+        Optional<Recipe> optionalRecipe = Optional.empty();
+
+        when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
+
+        Recipe recipeReturned = recipeService.findById(1L);
     }
 
     @Test

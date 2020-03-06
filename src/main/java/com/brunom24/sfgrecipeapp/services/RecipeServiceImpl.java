@@ -4,6 +4,7 @@ import com.brunom24.sfgrecipeapp.commands.RecipeCommand;
 import com.brunom24.sfgrecipeapp.converters.RecipeCommandToRecipe;
 import com.brunom24.sfgrecipeapp.converters.RecipeToRecipeCommand;
 import com.brunom24.sfgrecipeapp.domain.Recipe;
+import com.brunom24.sfgrecipeapp.exceptions.NotFoundException;
 import com.brunom24.sfgrecipeapp.repositories.RecipeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,7 +41,7 @@ public class RecipeServiceImpl implements RecipeService {
         Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
 
         if (!optionalRecipe.isPresent()) {
-            throw new RuntimeException("Recipe Not Found!");
+            throw new NotFoundException("Recipe Not Found!");
         }
 
         return optionalRecipe.get();
