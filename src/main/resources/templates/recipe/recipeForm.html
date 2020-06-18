@@ -24,7 +24,12 @@
 <div class="container-fluid" style="margin-top: 20px">
     <div class="row">
         <div class="col-md-6 offset-md-3">
-            <form th:object="${recipe}" th:action="@{/recipe/}" method="post">
+            <form th:object="${recipe}" th:action="@{/recipe/}" method="post" class="" novalidate>
+
+                <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+                    <p class="my-3">Please Correct Errors Below</p>
+                </div>
+
                 <input type="hidden" th:field="*{id}"/>
                 <div class="card border-primary" style="margin-bottom: 16px">
                     <div class="card-header bg-primary text-white">
@@ -33,8 +38,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label>Recipe Description:</label>
-                                <input type="text" class="form-control" th:field="*{description}"/>
+                                <label for="description">Recipe Description:</label>
+                                <input id="description" type="text" class="form-control" th:field="*{description}"
+                                       th:classappend="${#fields.hasErrors('description')} ? 'is-invalid'"/>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('description')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
@@ -58,18 +69,31 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label>Prep Time:</label>
-                                <input type="text" class="form-control" th:field="*{prepTime}"/>
+                                <label for="prepTime">Prep Time:</label>
+                                <input id="prepTime" type="text" class="form-control" th:field="*{prepTime}"
+                                       th:classappend="${#fields.hasErrors('prepTime')} ? 'is-invalid'"/>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('prepTime')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="col-md-3 form-group">
-                                <label>Cooktime:</label>
-                                <input type="text" class="form-control" th:field="*{cookTime}"/>
+                                <label for="cookTime">Cooktime:</label>
+                                <input id="cookTime" type="text" class="form-control" th:field="*{cookTime}"
+                                       th:classappend="${#fields.hasErrors('cookTime')} ? 'is-invalid'"/>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('cookTime')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label>Difficulty:</label>
                                 <select class="form-control" th:field="*{difficulty}">
                                     <option th:each="difficultyValue : ${T(com.brunom24.sfgrecipeapp.domain.Difficulty).values()}"
-                                            th:text="${difficultyValue.name()}" th:value="${difficultyValue.name()}">Easy
+                                            th:text="${difficultyValue.name()}" th:value="${difficultyValue.name()}">
+                                        Easy
                                     </option>
                                 </select>
                                 <select class="form-control" th:remove="all">
@@ -81,16 +105,28 @@
                         </div>
                         <div class="row">
                             <div class="col-md-3 form-group">
-                                <label>Servings:</label>
-                                <input type="text" class="form-control" th:field="*{servings}"/>
+                                <label for="servings">Servings:</label>
+                                <input id="servings" type="text" class="form-control" th:field="*{servings}"
+                                       th:classappend="${#fields.hasErrors('servings')} ? 'is-invalid'"/>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('servings')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
                             </div>
                             <div class="col-md-3 form-group">
                                 <label>Source:</label>
                                 <input type="text" class="form-control" th:field="*{source}"/>
                             </div>
                             <div class="col-md-3 form-group">
-                                <label>URL:</label>
-                                <input type="text" class="form-control" th:field="*{url}"/>
+                                <label for="url">URL:</label>
+                                <input id="url" type="text" class="form-control" th:field="*{url}"
+                                       th:classappend="${#fields.hasErrors('url')} ? 'is-invalid'"/>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('url')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -129,7 +165,14 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12 form-group">
-                                <textarea class="form-control" rows="3" th:field="*{directions}"></textarea></div>
+                                <textarea id="directions" class="form-control" rows="3" th:field="*{directions}"
+                                          th:classappend="${#fields.hasErrors('directions')} ? 'is-invalid'"></textarea>
+                                <div class="invalid-feedback">
+                                    <ul>
+                                        <li th:each="error : ${#fields.errors('directions')}" th:text="${error}"></li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

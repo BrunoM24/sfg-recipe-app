@@ -28,7 +28,7 @@ public class RecipeCommand {
     @Max(999)
     private Integer prepTime;
 
-    @Max(1)
+    @Min(1)
     @Max(999)
     private Integer cookTime;
 
