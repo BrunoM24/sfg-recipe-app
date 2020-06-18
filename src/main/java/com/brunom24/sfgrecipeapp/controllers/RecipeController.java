@@ -8,8 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Slf4j
 @Controller
@@ -23,7 +26,7 @@ public class RecipeController {
     }
 
     @RequestMapping("/{id}/show")
-    public String showById(@PathVariable Long id, Model model){
+    public String showById(@PathVariable Long id, Model model) {
 
         Recipe recipe = recipeService.findById(id);
 
@@ -33,7 +36,7 @@ public class RecipeController {
     }
 
     @RequestMapping("/new")
-    public String newRecipe(Model model){
+    public String newRecipe(Model model) {
 
         model.addAttribute("recipe", new RecipeCommand());
 
@@ -41,7 +44,15 @@ public class RecipeController {
     }
 
     @PostMapping({"", "/"})
-    public String saveOrUpdate(@ModelAttribute RecipeCommand command){
+    public String saveOrUpdate(@Valid @ModelAttribute("recipe") RecipeCommand command, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.error(objectError.toString());
+            });
+
+            return "recipe/recipeForm";
+        }
 
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(command);
 
@@ -49,7 +60,7 @@ public class RecipeController {
     }
 
     @RequestMapping("/{id}/update")
-    public String updateRecipe(@PathVariable Long id, Model model){
+    public String updateRecipe(@PathVariable Long id, Model model) {
         RecipeCommand command = recipeService.findCommandById(id);
 
         model.addAttribute("recipe", command);
@@ -59,7 +70,7 @@ public class RecipeController {
 
 
     @RequestMapping("/{id}/delete")
-    public String deleteRecipe(@PathVariable Long id){
+    public String deleteRecipe(@PathVariable Long id) {
         log.debug("Id to delete: " + id);
 
         recipeService.deleteByd(id);
@@ -69,7 +80,7 @@ public class RecipeController {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NotFoundException.class)
-    public ModelAndView handleNotFound(Exception exception){
+    public ModelAndView handleNotFound(Exception exception) {
         log.error("Handling not found Exception");
         log.error(exception.getMessage());
 
